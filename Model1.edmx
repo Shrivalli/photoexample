@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OrganizationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Deptid" />
+          </Key>
+          <Property Name="Deptid" Type="int" Nullable="false" />
+          <Property Name="Dname" Type="nvarchar" MaxLength="20" />
+          <Property Name="location" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="eid" Type="int" Nullable="false" />
+          <Property Name="ename" Type="nvarchar" MaxLength="20" />
+          <Property Name="salary" Type="float" />
+          <Property Name="doj" Type="date" />
+          <Property Name="designation" Type="nvarchar" MaxLength="20" />
+          <Property Name="deptid" Type="int" />
+        </EntityType>
+        <EntityType Name="usertable">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="20" />
+          <Property Name="pwd" Type="nvarchar" MaxLength="20" />
+          <Property Name="country" Type="nvarchar" MaxLength="20" />
+          <Property Name="gender" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK__Employee__deptid__1273C1CD">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Deptid" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="deptid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OrganizationModelStoreContainer">
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usertable" EntityType="Self.usertable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Employee__deptid__1273C1CD" Association="Self.FK__Employee__deptid__1273C1CD">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OrganizationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Deptid" />
+          </Key>
+          <Property Name="Deptid" Type="Int32" Nullable="false" />
+          <Property Name="Dname" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__deptid__1273C1CD" FromRole="Department" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="eid" Type="Int32" Nullable="false" />
+          <Property Name="ename" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="salary" Type="Double" />
+          <Property Name="doj" Type="DateTime" Precision="0" />
+          <Property Name="designation" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="deptid" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Employee__deptid__1273C1CD" FromRole="Employee" ToRole="Department" />
+        </EntityType>
+        <Association Name="FK__Employee__deptid__1273C1CD">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Deptid" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="deptid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OrganizationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <AssociationSet Name="FK__Employee__deptid__1273C1CD" Association="Self.FK__Employee__deptid__1273C1CD">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="usertables" EntityType="OrganizationModel.usertable" />
+        </EntityContainer>
+        <EntityType Name="usertable">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="pwd" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="country" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OrganizationModelStoreContainer" CdmEntityContainer="OrganizationEntities">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="OrganizationModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Deptid" ColumnName="Deptid" />
+                <ScalarProperty Name="Dname" ColumnName="Dname" />
+                <ScalarProperty Name="location" ColumnName="location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="OrganizationModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="eid" ColumnName="eid" />
+                <ScalarProperty Name="ename" ColumnName="ename" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="doj" ColumnName="doj" />
+                <ScalarProperty Name="designation" ColumnName="designation" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usertables">
+            <EntityTypeMapping TypeName="OrganizationModel.usertable">
+              <MappingFragment StoreEntitySet="usertable">
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
